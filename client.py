@@ -36,12 +36,16 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client:
     while True:
         
         message = input("Message: ")
-
-        if message == "exit":
-            client.send(message.encode())
-            break
+        receiver = input(
+        """If the message is not public,
+          enter the name of the intended recipient; otherwise, press Enter. """
+    ).strip()
+        current_time = time.strftime("%H:%M:%S")
         
-
-        current_time =time.strftime("%H:%M:%S")
+        if receiver == "":
+          msg = f"PUBLIC|{username}||{message}|{current_time}"
+        else:
+          msg = f"PRIVATE|{username}|{receiver}|{message}|{current_time}"
         
-        client.send(f"[{current_time}] {username}:{message}".encode())
+        client.send(msg.encode())
+
