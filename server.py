@@ -11,7 +11,7 @@
 # [تو بعدی اینو نمیگه و خالیه]
 # بهتره هر سری message رو بگه.
 
-
+import time
 import socket
 import threading
 from database_manager import ChatDatabase
@@ -141,11 +141,11 @@ def handle_client(conn, addr):
         recent_msgs = db.get_messages_for_user(username)
         for sender, msg, receiver, timestamp in recent_msgs:
             if receiver is None:
-                conn.send(f"[{timestamp}] {sender}: {msg}".encode())
+                conn.send(f"[{timestamp}] {sender}: {msg}\n".encode())
             elif sender == username:
-                conn.send(f"[{timestamp}] [Private to {receiver}]: {msg}".encode())
+                conn.send(f"[{timestamp}] [Private to {receiver}]: {msg}\n".encode())
             else:
-                conn.send(f"[{timestamp}] [Private from {sender}]: {msg}".encode())
+                conn.send(f"[{timestamp}] [Private from {sender}]: {msg}\n".encode())
 
         join_message = f"{username} joined the chat"
         print(join_message)
